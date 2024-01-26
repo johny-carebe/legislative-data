@@ -17,6 +17,10 @@ module LegislativeData
       def bill(bills)
         bills.find { |bill| bill.id == @bill_id }
       end
+
+      def vote_results(vote_results)
+        vote_results.select { |vote_result| vote_result.vote_id == @id }
+      end
     end
   end
 end

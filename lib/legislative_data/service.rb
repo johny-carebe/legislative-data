@@ -21,6 +21,10 @@ module LegislativeData
       end
     end
 
+    def bills_support
+      @bills.map { |bill| bill_support(bill) }
+    end
+
     private
 
     def legislative_data
@@ -33,9 +37,15 @@ module LegislativeData
                 .hash_map
     end
 
+    def bill_support(bill)
+      HashMapper.new
+                .bill_support(bill, @legislators, @vote_results, @votes)
+                .hash_map
+    end
+
     def sum_legislator_votes(legislator, vote_results)
       vote_results.each do |vote_result|
-        vote_for = vote_result.vote_type == 1 ? :supported : :opposed
+        vote_for = vote_result.supporter? ? :supported : :opposed
         legislator[vote_for] += 1
       end
 
