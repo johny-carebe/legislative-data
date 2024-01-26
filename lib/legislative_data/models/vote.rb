@@ -3,7 +3,7 @@
 module LegislativeData
   module Models
     class Vote
-      attr_accessor :id, :bill_id
+      attr_reader :id, :bill_id
 
       def initialize(id:, bill_id:)
         @id = id

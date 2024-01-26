@@ -51,6 +51,26 @@ describe HashMapper do
     end
   end
 
+  describe '#voted_bills_by_legislator' do
+    subject do
+      instance
+        .voted_bills_by_legislator(legislator)
+        .hash_map
+    end
+
+    let(:legislator) { LegislativeData::Models::Legislator.new(id: 1, name: 'Legis Lator') }
+
+    let(:voted_bills_by_legislator_params) do
+      {
+        legislator: 'Legis Lator',
+        supported: 0,
+        opposed: 0
+      }
+    end
+
+    it { is_expected.to eq(voted_bills_by_legislator_params) }
+  end
+
   describe '#hash_map' do
     context 'when mapping with no attributes' do
       subject { instance.hash_map }

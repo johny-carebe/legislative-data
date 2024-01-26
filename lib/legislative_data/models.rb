@@ -36,8 +36,6 @@ module LegislativeData
         "files/csv/#{underscore(model)}s.csv"
       end
 
-      private
-
       def underscore(string)
         string
           .gsub('::', '/')

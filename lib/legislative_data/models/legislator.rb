@@ -3,7 +3,7 @@
 module LegislativeData
   module Models
     class Legislator
-      attr_accessor :id, :name
+      attr_reader :id, :name
 
       def initialize(id:, name:)
         @id = id
@@ -15,7 +15,7 @@ module LegislativeData
       end
 
       def vote_results(vote_results)
-        vote_results.find { |vote_result| vote_result.legislator_id == @id }
+        vote_results.select { |vote_result| vote_result.legislator_id == @id }
       end
     end
   end
