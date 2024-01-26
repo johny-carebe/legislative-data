@@ -1,0 +1,13 @@
+AllCops:
+  TargetRubyVersion: 3.2.2
+  NewCops: enable
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
