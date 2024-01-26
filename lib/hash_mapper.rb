@@ -36,6 +36,15 @@ class HashMapper
     self
   end
 
+  def bill_support(bill, legislators, vote_results, votes)
+    @hash_map[:bill] = bill.title
+    @hash_map[:principal_sponsor] = bill&.sponsor(legislators)&.name
+    @hash_map[:supporters] = bill.supporters(legislators, vote_results, votes)
+    @hash_map[:opposers] = bill.opposers(legislators, vote_results, votes)
+
+    self
+  end
+
   private
 
   def to_i_or_self(value)

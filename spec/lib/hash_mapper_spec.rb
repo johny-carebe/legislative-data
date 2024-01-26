@@ -5,6 +5,8 @@ require_relative '../../lib/hash_mapper'
 
 describe HashMapper do
   let(:instance) { described_class.new }
+  let(:models) { LegislativeData::Models }
+  let(:legislator) { models::Legislator.new(id: 1, name: 'Legis Lator') }
 
   describe '#from_csv_row' do
     subject do
@@ -58,8 +60,6 @@ describe HashMapper do
         .hash_map
     end
 
-    let(:legislator) { LegislativeData::Models::Legislator.new(id: 1, name: 'Legis Lator') }
-
     let(:voted_bills_by_legislator_params) do
       {
         legislator: 'Legis Lator',
@@ -69,6 +69,42 @@ describe HashMapper do
     end
 
     it { is_expected.to eq(voted_bills_by_legislator_params) }
+  end
+
+  describe '#bill_support' do
+    subject do
+      instance
+        .bill_support(bill, legislators, vote_results, votes)
+        .hash_map
+    end
+
+    let(:supporter) { legislator.id }
+    let(:opposer) { 2 }
+    let(:bill) { models::Bill.new(id: 1, title: 'Bill Title', sponsor_id: supporter) }
+    let(:legislators) { [legislator, models::Legislator.new(id: opposer, name: 'Lator Legis')] }
+    let(:vote) { models::Vote.new(id: 1, bill_id: bill.id) }
+    let(:votes) { [vote, models::Vote.new(id: 2, bill_id: bill.id + 1)] }
+
+    let(:vote_results) do
+      [
+        models::VoteResult.new(id: 1,
+                               legislator_id: supporter,
+                               vote_id: vote.id,
+                               vote_type: supporter),
+        models::VoteResult.new(id: 2, legislator_id: opposer, vote_id: vote.id, vote_type: opposer)
+      ]
+    end
+
+    let(:bill_support_params) do
+      {
+        bill: 'Bill Title',
+        principal_sponsor: 'Legis Lator',
+        supporters: ['Legis Lator'],
+        opposers: ['Lator Legis']
+      }
+    end
+
+    it { is_expected.to eq(bill_support_params) }
   end
 
   describe '#hash_map' do
