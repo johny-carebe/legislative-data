@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'legislative_data/models'
 class HashMapper
   attr_reader :hash_map
 
@@ -16,11 +17,25 @@ class HashMapper
     self
   end
 
+  def populate_models(models_list)
+    models_list.each do |model|
+      models_sym = :"#{model.downcase}s"
+
+      @hash_map[models_sym] = populate_model(model)
+    end
+
+    self
+  end
+
   private
 
   def to_i_or_self(value)
     Integer(value)
   rescue ArgumentError
     value
+  end
+
+  def populate_model(model)
+    LegislativeData::Models.bulk_create(model)
   end
 end

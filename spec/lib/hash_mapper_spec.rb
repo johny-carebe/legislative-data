@@ -30,6 +30,27 @@ describe HashMapper do
     end
   end
 
+  describe '#populate_models' do
+    subject do
+      instance
+        .populate_models(models_list)
+        .hash_map
+    end
+
+    context 'when populate_models() is called with a list of models name' do
+      let(:models_list) { %w[Bill Legislator VoteResult Vote] }
+
+      let(:models_are_populated) do
+        subject.values.all? { |model_list| model_list.is_a?(Array) && !model_list.empty? }
+      end
+
+      it 'populates all models' do
+        expect(subject.length).to eq(models_list.count)
+        expect(models_are_populated).to be_truthy
+      end
+    end
+  end
+
   describe '#hash_map' do
     context 'when mapping with no attributes' do
       subject { instance.hash_map }
