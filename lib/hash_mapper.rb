@@ -19,10 +19,19 @@ class HashMapper
 
   def populate_models(models_list)
     models_list.each do |model|
-      models_sym = :"#{model.downcase}s"
+      model_string = LegislativeData::Models.underscore(model.to_s)
+      models_sym = :"#{model_string}s"
 
       @hash_map[models_sym] = populate_model(model)
     end
+
+    self
+  end
+
+  def voted_bills_by_legislator(legislator)
+    @hash_map[:legislator] = legislator.name
+    @hash_map[:supported] = 0
+    @hash_map[:opposed] = 0
 
     self
   end

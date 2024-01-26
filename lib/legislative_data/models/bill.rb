@@ -3,7 +3,7 @@
 module LegislativeData
   module Models
     class Bill
-      attr_accessor :id, :title, :sponsor_id
+      attr_reader :id, :title, :sponsor_id
 
       def initialize(id:, title:, sponsor_id:)
         @id = id
