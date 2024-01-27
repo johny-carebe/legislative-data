@@ -8,7 +8,8 @@ describe LegislativeData::Service do
 
     let(:voted_by_legislators_sample) do
       {
-        legislator: 'Rep. Don Young (R-AK-1)',
+        legislator_id: 400440,
+        legislator_name: 'Rep. Don Young (R-AK-1)',
         supported: 1,
         opposed: 1
       }
@@ -21,7 +22,9 @@ describe LegislativeData::Service do
     subject { described_class.new.bills_support }
 
     let(:bills_support_sample) do
-      subject.find { |bills_support| bills_support[:bill] == 'H.R. 5376: Build Back Better Act' }
+      subject.find do |bills_support|
+        bills_support[:bill_title] == 'H.R. 5376: Build Back Better Act'
+      end
     end
 
     let(:supporters) do
