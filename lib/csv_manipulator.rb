@@ -3,7 +3,7 @@
 require 'csv'
 require 'hash_mapper'
 
-module CsvExtractor
+module CsvManipulator
   class << self
     def to_hash_list(file_path, attrs)
       hash_list = []

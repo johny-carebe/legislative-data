@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/csv_extractor'
+require_relative '../../lib/csv_manipulator'
 
-describe CsvExtractor do
+describe CsvManipulator do
   describe '#to_hash_list' do
     subject { described_class.to_hash_list(file_path, attrs) }
 

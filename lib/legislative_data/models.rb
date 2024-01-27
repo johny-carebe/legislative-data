@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'csv_extractor'
+require 'csv_manipulator'
 require 'hash_mapper'
 require 'legislative_data/models/bill'
 require 'legislative_data/models/legislator'
@@ -13,7 +13,7 @@ module LegislativeData
       def bulk_create(model)
         class_name = Object.const_get(class_name(model))
 
-        CsvExtractor
+        CsvManipulator
           .to_hash_list(csv_file_path(model), class_name.attrs)
           .map { |attrs| class_name.new(**attrs) }
       end
@@ -33,7 +33,7 @@ module LegislativeData
       end
 
       def csv_file_path(model)
-        "files/csv/#{underscore(model)}s.csv"
+        "files/input/csv/#{underscore(model)}s.csv"
       end
 
       def underscore(string)
