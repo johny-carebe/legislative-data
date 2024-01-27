@@ -29,7 +29,8 @@ class HashMapper
   end
 
   def voted_bills_by_legislator(legislator)
-    @hash_map[:legislator] = legislator.name
+    @hash_map[:legislator_id] = legislator.id
+    @hash_map[:legislator_name] = legislator.name
     @hash_map[:supported] = 0
     @hash_map[:opposed] = 0
 
@@ -37,7 +38,8 @@ class HashMapper
   end
 
   def bill_support(bill, legislators, vote_results, votes)
-    @hash_map[:bill] = bill.title
+    @hash_map[:bill_id] = bill.id
+    @hash_map[:bill_title] = bill.title
     @hash_map[:principal_sponsor] = bill&.sponsor(legislators)&.name
     @hash_map[:supporters] = bill.supporters(legislators, vote_results, votes)
     @hash_map[:opposers] = bill.opposers(legislators, vote_results, votes)

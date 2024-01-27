@@ -7,6 +7,22 @@ describe HashMapper do
   let(:instance) { described_class.new }
   let(:models) { LegislativeData::Models }
   let(:legislator) { models::Legislator.new(id: 1, name: 'Legis Lator') }
+  let(:supporter) { legislator.id }
+  let(:opposer) { 2 }
+  let(:bill) { models::Bill.new(id: 1, title: 'Bill Title', sponsor_id: supporter) }
+  let(:legislators) { [legislator, models::Legislator.new(id: opposer, name: 'Lator Legis')] }
+  let(:vote) { models::Vote.new(id: 1, bill_id: bill.id) }
+  let(:votes) { [vote, models::Vote.new(id: 2, bill_id: bill.id + 1)] }
+
+  let(:vote_results) do
+    [
+      models::VoteResult.new(id: 1,
+                             legislator_id: supporter,
+                             vote_id: vote.id,
+                             vote_type: supporter),
+      models::VoteResult.new(id: 2, legislator_id: opposer, vote_id: vote.id, vote_type: opposer)
+    ]
+  end
 
   describe '#from_csv_row' do
     subject do
@@ -62,7 +78,8 @@ describe HashMapper do
 
     let(:voted_bills_by_legislator_params) do
       {
-        legislator: 'Legis Lator',
+        legislator_id: 1,
+        legislator_name: 'Legis Lator',
         supported: 0,
         opposed: 0
       }
@@ -78,26 +95,10 @@ describe HashMapper do
         .hash_map
     end
 
-    let(:supporter) { legislator.id }
-    let(:opposer) { 2 }
-    let(:bill) { models::Bill.new(id: 1, title: 'Bill Title', sponsor_id: supporter) }
-    let(:legislators) { [legislator, models::Legislator.new(id: opposer, name: 'Lator Legis')] }
-    let(:vote) { models::Vote.new(id: 1, bill_id: bill.id) }
-    let(:votes) { [vote, models::Vote.new(id: 2, bill_id: bill.id + 1)] }
-
-    let(:vote_results) do
-      [
-        models::VoteResult.new(id: 1,
-                               legislator_id: supporter,
-                               vote_id: vote.id,
-                               vote_type: supporter),
-        models::VoteResult.new(id: 2, legislator_id: opposer, vote_id: vote.id, vote_type: opposer)
-      ]
-    end
-
     let(:bill_support_params) do
       {
-        bill: 'Bill Title',
+        bill_id: 1,
+        bill_title: 'Bill Title',
         principal_sponsor: 'Legis Lator',
         supporters: ['Legis Lator'],
         opposers: ['Lator Legis']
