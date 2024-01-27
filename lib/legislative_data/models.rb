@@ -14,7 +14,7 @@ module LegislativeData
         class_name = Object.const_get(class_name(model))
 
         CsvManipulator
-          .to_hash_list(csv_file_path(model), class_name.attrs)
+          .from_csv_to_hash_list(csv_file_path(model), class_name.attrs)
           .map { |attrs| class_name.new(**attrs) }
       end
 
