@@ -56,7 +56,6 @@ describe LegislativeData::Service do
       ]
     end
 
-    it { puts subject.inspect }
     it { expect(bills_support_sample[:supporters]).to include(*supporters) }
     it { expect(bills_support_sample[:opposers]).to include(*opposers) }
     it { expect(bills_support_sample[:principal_sponsor]).to eq('Rep. John Yarmuth (D-KY-3)') }

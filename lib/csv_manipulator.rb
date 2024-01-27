@@ -24,7 +24,7 @@ module CsvManipulator
         csv << attrs
 
         hash_list.each do |hash|
-          row = accessors.map { |accessor| hash[accessor] }
+          row = accessors.map { |accessor| hash[accessor] || 'Unknown' }
           csv << row
         end
       end
